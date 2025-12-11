@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+    <div class="card">
+        <h2><i class="fa-solid fa-bus"></i> Register Student (Direct)</h2>
+        <form action="{{ url_for('register_transport') }}" method="POST">
+            <div class="form-group">
+                <label>Student ID</label>
+                <input type="number" name="student_id" required>
+            </div>
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" name="student_name" required>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label>Route Number</label>
+                    <input type="number" name="route_number" required>
+                </div>
+                <div class="form-group">
+                    <label>Route Name</label>
+                    <input type="text" name="route_name" required>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label>Driver Name</label>
+                    <input type="text" name="driver_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Driver Phone</label>
+                    <input type="text" name="driver_phone" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Pickup Time</label>
+                <input type="text" name="pickup_time" required placeholder="e.g. 08:00 AM">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Register</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2><i class="fa-solid fa-clock"></i> Add to Request Queue</h2>
+        <form action="{{ url_for('add_transport_queue') }}" method="POST">
+            <div class="form-group">
+                <label>Student ID</label>
+                <input type="number" name="student_id" required>
+            </div>
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" name="student_name" required>
+            </div>
+            <div class="form-group">
+                <label>Preferred Route Number</label>
+                <input type="number" name="route_number" required>
+            </div>
+            <div class="form-group">
+                <label>Request Date</label>
+                <input type="text" name="request_date" placeholder="DD/MM/YYYY" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="background: var(--accent-secondary);"><i
+                    class="fa-solid fa-hourglass-half"></i> Add to Queue</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <h2><i class="fa-solid fa-list-check"></i> Transport Records</h2>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Route #</th>
+                    <th>Route Name</th>
+                    <th>Driver</th>
+                    <th>Phone</th>
+                    <th>Pickup</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in transport_list %}
+                <tr>
+                    <td>{{ record.student_id }}</td>
+                    <td>{{ record.student_name }}</td>
+                    <td><span
+                            style="background: rgba(255, 255, 255, 0.1); padding: 0.2rem 0.5rem; border-radius: 4px;">{{
+                            record.route_number }}</span></td>
+                    <td>{{ record.route_name }}</td>
+                    <td>{{ record.driver_name }}</td>
+                    <td>{{ record.driver_phone }}</td>
+                    <td>{{ record.pickup_time }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_transport', student_id=record.student_id) }}" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to remove this record?')">
+                            <i class="fa-solid fa-trash"></i> Remove
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <h2><i class="fa-solid fa-spinner"></i> Pending Requests (Queue)</h2>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Preferred Route</th>
+                    <th>Request Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in queue_list %}
+                <tr>
+                    <td>{{ req.student_id }}</td>
+                    <td>{{ req.student_name }}</td>
+                    <td>{{ req.preferred_route }}</td>
+                    <td>{{ req.request_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

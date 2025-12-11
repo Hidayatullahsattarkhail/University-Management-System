@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>Total Students</h3>
+        <p class="number">{{ student_count }}</p>
+        <div class="mt-4 text-right">
+            <i class="fa-solid fa-users fa-2x" style="color: var(--accent-primary); opacity: 0.5;"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3>Exam Records</h3>
+        <p class="number">{{ exam_count }}</p>
+        <div class="mt-4 text-right">
+            <i class="fa-solid fa-file-pen fa-2x" style="color: var(--accent-secondary); opacity: 0.5;"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3>Transport Records</h3>
+        <p class="number">{{ transport_count }}</p>
+        <div class="mt-4 text-right">
+            <i class="fa-solid fa-bus fa-2x" style="color: var(--warning); opacity: 0.5;"></i>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2><i class="fa-solid fa-door-open"></i> Welcome to University Management System</h2>
+    <p style="color: var(--text-secondary); margin-top: 1rem;">
+        Select a module from the sidebar to manage records. This system allows you to efficiently handle student data,
+        exam results, and transport logistics.
+    </p>
+</div>
+{% endblock %}

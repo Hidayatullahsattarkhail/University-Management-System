@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h2>UMS</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('index') }}" class="nav-item {{ 'active' if request.endpoint == 'index' else '' }}">
+                    <i class="fa-solid fa-chart-line"></i> <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('students') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'students' else '' }}">
+                    <i class="fa-solid fa-users"></i> <span>Students</span>
+                </a>
+                <a href="{{ url_for('exams') }}" class="nav-item {{ 'active' if request.endpoint == 'exams' else '' }}">
+                    <i class="fa-solid fa-file-pen"></i> <span>Exams</span>
+                </a>
+                <a href="{{ url_for('transport') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'transport' else '' }}">
+                    <i class="fa-solid fa-bus"></i> <span>Transport</span>
+                </a>
+                <a href="{{ url_for('fees') }}" class="nav-item {{ 'active' if request.endpoint == 'fees' else '' }}">
+                    <i class="fa-solid fa-money-bill"></i> <span>Fees</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 class="page-title">
+                    {% if request.endpoint == 'index' %}Dashboard
+                    {% elif request.endpoint == 'students' %}Student Management
+                    {% elif request.endpoint == 'exams' %}Exam Records
+                    {% elif request.endpoint == 'transport' %}Transport Services
+                    {% elif request.endpoint == 'fees' %}Fee Management
+                    {% else %}University Management{% endif %}
+                </h1>
+                <div class="user-profile">
+                    <span>Admin</span>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fa-solid fa-circle-info"></i> {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
